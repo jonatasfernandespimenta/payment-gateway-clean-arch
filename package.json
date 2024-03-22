@@ -1,0 +1,28 @@
+{
+  "name": "payment-gateway-clean-arch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/src/index.js",
+    "dev": "ts-node src/index.ts",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.4.2"
+  },
+  "compilerOptions": {
+    "outDir": "./dist"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^8.4.1"
+  }
+}
