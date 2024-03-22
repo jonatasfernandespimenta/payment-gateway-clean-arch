@@ -1,4 +1,4 @@
-import { Either, left, right } from "../../../core/either";
+import { Either, left, right } from "../../../../core/either";
 import { Customer } from "../../enterprise/interfaces/customer";
 import { CustomerRepository } from "../repositories/customer-repository";
 import { ResourceNotFoundError } from "./errors/resource-not-found-error";

@@ -1,4 +1,4 @@
-import { Either, left, right } from "../../../core/either";
+import { Either, left, right } from "../../../../core/either";
 import { UpdateCustomer } from "../../enterprise/interfaces/update-customer";
 import { CustomerRepository } from "../repositories/customer-repository";
 import { NotAllowedError } from "./errors/not-allower-errorr";

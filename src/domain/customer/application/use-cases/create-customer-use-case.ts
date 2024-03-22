@@ -1,4 +1,4 @@
-import { Either, right } from "../../../core/either";
+import { Either, right } from "../../../../core/either";
 import { CreateCustomer } from "../../enterprise/interfaces/create-customer";
 import { Customer } from "../../enterprise/interfaces/customer";
 import { CustomerRepository } from "../repositories/customer-repository";
