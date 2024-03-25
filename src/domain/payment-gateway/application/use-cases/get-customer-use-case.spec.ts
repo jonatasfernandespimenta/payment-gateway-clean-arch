@@ -4,6 +4,7 @@ import { CustomerRepository } from '../repositories/customer-repository';
 import { InMemoryCustomerRepository } from '../../test/repositories/in-memory-customer-repository';
 import { CustomerBuilder } from '../../test/builders/customer-builder';
 import { GetCustomerUseCase } from './get-customer-use-case';
+import { ResourceNotFoundError } from './errors/resource-not-found-error';
 
 let customerRepository: CustomerRepository;
 let sut: GetCustomerUseCase;
@@ -30,5 +31,6 @@ describe('Update Customer UseCase', () => {
     const result = await sut.execute({ customerId: 'non-existing' });
 
     expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError);
   })
 });

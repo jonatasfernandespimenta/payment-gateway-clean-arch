@@ -1,10 +1,10 @@
-import { CreditCardRepository } from "../../application/repositories/credit-card-repository";
+import { CardRepository } from "../../application/repositories/card-repository";
 import { Card } from "../../enterprise/interfaces/card";
 import { CreateCard } from "../../enterprise/interfaces/create-card";
 import { CreateCardToken } from "../../enterprise/interfaces/create-card-token";
 import { UpdateCard } from "../../enterprise/interfaces/update-card";
 
-export class InMemoryCardRepository implements CreditCardRepository {
+export class InMemoryCardRepository implements CardRepository {
   private cards: Card[] = [];
   private tokens: { [key: string]: Card } = {};
 
@@ -27,9 +27,9 @@ export class InMemoryCardRepository implements CreditCardRepository {
     return Promise.resolve({ token, card: { ...card, id } });
   }
 
-  async save(customerId: string, card: CreateCard): Promise<void> {
+  async save(card: CreateCard): Promise<void> {
     const token = this.tokens[card.cardToken];
-    this.cards.push({ ...token, customerId });
+    this.cards.push({ ...token, customerId: card.customerId });
   }
 
   async update(customerId: string, id: string, card: UpdateCard): Promise<void> {

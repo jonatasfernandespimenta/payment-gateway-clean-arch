@@ -1,7 +1,7 @@
 import { Either, left, right } from "../../../../core/either";
 import { UpdateCustomer } from "../../enterprise/interfaces/update-customer";
 import { CustomerRepository } from "../repositories/customer-repository";
-import { NotAllowedError } from "./errors/not-allower-errorr";
+import { NotAllowedError } from "./errors/not-allowed-errorr";
 import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 
 interface UpdateCustomerUseCaseProps {

@@ -3,6 +3,8 @@ import { CustomerRepository } from "../repositories/customer-repository";
 import { DeleteCustomerUseCase } from "./delete-customer-use-case";
 import { CustomerBuilder } from "../../test/builders/customer-builder";
 import { InMemoryCustomerRepository } from "../../test/repositories/in-memory-customer-repository";
+import { ResourceNotFoundError } from "./errors/resource-not-found-error";
+import { NotAllowedError } from "./errors/not-allowed-errorr";
 
 let customerRepository: CustomerRepository;
 let sut: DeleteCustomerUseCase;
@@ -26,6 +28,7 @@ describe('Delete Customer UseCase', () => {
     const result = await sut.execute({ customerId: 'non-existing' });
 
     expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError);
   });
 
   it('Should return a NotAllowedError if customer id is different from the one to be deleted', async () => {
@@ -35,5 +38,6 @@ describe('Delete Customer UseCase', () => {
     const result = await sut.execute({ customerId: 'non-existing' });
 
     expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(NotAllowedError);
   });
 })

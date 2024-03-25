@@ -4,6 +4,8 @@ import { CustomerRepository } from '../repositories/customer-repository';
 import { UpdateCustomerUseCase } from './update-customer-use-case';
 import { InMemoryCustomerRepository } from '../../test/repositories/in-memory-customer-repository';
 import { CustomerBuilder } from '../../test/builders/customer-builder';
+import { ResourceNotFoundError } from './errors/resource-not-found-error';
+import { NotAllowedError } from './errors/not-allowed-errorr';
 
 let customerRepository: CustomerRepository;
 let sut: UpdateCustomerUseCase;
@@ -31,6 +33,7 @@ describe('Update Customer UseCase', () => {
     const result = await sut.execute({ customerId: 'non-existing', customer: { name: 'test' } });
 
     expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError);
   })
 
   it('Should return a NotAllowedError if customer id does not match', async () => {
@@ -40,5 +43,6 @@ describe('Update Customer UseCase', () => {
     const result = await sut.execute({ customerId: 'non-existing', customer: { name: 'test' } });
 
     expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(NotAllowedError);
   })
 });
