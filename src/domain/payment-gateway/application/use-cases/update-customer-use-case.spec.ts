@@ -35,14 +35,4 @@ describe('Update Customer UseCase', () => {
     expect(result.isLeft()).toBeTruthy();
     expect(result.value).toBeInstanceOf(ResourceNotFoundError);
   })
-
-  it('Should return a NotAllowedError if customer id does not match', async () => {
-    const newCustomer = new CustomerBuilder().makeSimpleCustomerWithoutId();
-    await customerRepository.save(newCustomer);
-
-    const result = await sut.execute({ customerId: 'non-existing', customer: { name: 'test' } });
-
-    expect(result.isLeft()).toBeTruthy();
-    expect(result.value).toBeInstanceOf(NotAllowedError);
-  })
 });

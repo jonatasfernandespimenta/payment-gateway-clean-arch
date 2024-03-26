@@ -7,7 +7,7 @@ interface DeleteCustomerUseCaseProps {
   customerId: string;
 }
 
-type DeleteCustomerUseCaseResponse = Either<ResourceNotFoundError | NotAllowedError, {}>;
+type DeleteCustomerUseCaseResponse = Either<ResourceNotFoundError, {}>;
 
 export class DeleteCustomerUseCase {
   constructor(private customerRepository: CustomerRepository) {}
@@ -17,10 +17,6 @@ export class DeleteCustomerUseCase {
 
     if (!customer) {
       return left(new ResourceNotFoundError());
-    }
-
-    if (props.customerId !== customer.id) {
-      return left(new NotAllowedError());
     }
 
     await this.customerRepository.delete(props.customerId);

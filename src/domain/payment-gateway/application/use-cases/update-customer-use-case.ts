@@ -21,10 +21,6 @@ export class UpdateCustomerUseCase {
       return left(new ResourceNotFoundError());
     }
 
-    if(props.customerId !== customer.id) {
-      return left(new NotAllowedError());
-    }
-
     await this.customerRepository.update(props.customerId, props.customer);
 
     return right(`Customer ${props.customerId} updated successfully!`);

@@ -7,13 +7,18 @@ import { PaymentStatus } from "../../enterprise/interfaces/payment-status-enum";
 export class InMemoryPaymentRepository implements PaymentRepository {
   private payments: Payment[] = [];
 
-  async create(payment: CreatePayment): Promise<void> {
+  async get(id: string): Promise<Payment | null> {
+    return this.payments.find(payment => payment.id === id) ?? null;
+  }
+
+  async create(payment: CreatePayment): Promise<Payment> {
     payment.status = PaymentStatus.pending;
 
     const id = Math.random().toString();
 
     this.payments.push({ ...payment, id });
-    return Promise.resolve();
+
+    return Promise.resolve({ ...payment, id });
   }
 
   async confirm(id: string): Promise<void> {
@@ -22,9 +27,10 @@ export class InMemoryPaymentRepository implements PaymentRepository {
     return Promise.resolve();
   }
 
-  async refund(refund: CreateRefund): Promise<void> {
+  async refund(refund: CreateRefund): Promise<Payment> {
     const index = this.payments.findIndex(payment => payment.id === refund.paymentId);
     this.payments[index] = { ...this.payments[index], status: PaymentStatus.refunded };
-    return Promise.resolve();
+
+    return Promise.resolve(this.payments[index]);
   }
 }

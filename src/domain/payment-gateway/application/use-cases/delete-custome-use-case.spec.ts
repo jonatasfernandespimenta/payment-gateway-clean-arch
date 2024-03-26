@@ -30,14 +30,4 @@ describe('Delete Customer UseCase', () => {
     expect(result.isLeft()).toBeTruthy();
     expect(result.value).toBeInstanceOf(ResourceNotFoundError);
   });
-
-  it('Should return a NotAllowedError if customer id is different from the one to be deleted', async () => {
-    const newCustomer = new CustomerBuilder().makeSimpleCustomerWithoutId();
-    const { id } = await customerRepository.save(newCustomer);
-
-    const result = await sut.execute({ customerId: 'non-existing' });
-
-    expect(result.isLeft()).toBeTruthy();
-    expect(result.value).toBeInstanceOf(NotAllowedError);
-  });
 })
