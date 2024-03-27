@@ -6,32 +6,36 @@ import { stripe } from './stripe';
 
 export class StripeCustomerRepository implements CustomerRepository {
   async get(id: string): Promise<Customer | null> {
-    const response = await stripe.customers.retrieve(id);
-
-    if(!response.id) {
+    try {
+      const response = await stripe.customers.retrieve(id);
+  
+      if(!response.id) {
+        return null
+      }
+  
+      if(response.deleted) {
+        return null;
+      }
+  
+      return {
+        id: response.id,
+        birthday: '',
+        address: {
+          city: response.address?.city || '',
+          district: response.address?.postal_code || '',
+          number: response.address?.postal_code || '',
+          street: response.address?.line1 || '',
+          uf: response.address?.state || '',
+          zipCode: response.address?.postal_code || '',
+          complement: response.address?.line2 || '',
+        },
+        document: response.metadata?.document || '',
+        email: response.email || '',
+        name: response.name || '',
+        lastName: response.metadata?.lastName || '',
+      }
+    } catch (error) {
       return null
-    }
-
-    if(response.deleted) {
-      return null;
-    }
-
-    return {
-      id: response.id,
-      birthday: '',
-      address: {
-        city: response.address?.city || '',
-        district: response.address?.postal_code || '',
-        number: response.address?.postal_code || '',
-        street: response.address?.line1 || '',
-        uf: response.address?.state || '',
-        zipCode: response.address?.postal_code || '',
-        complement: response.address?.line2 || '',
-      },
-      document: response.metadata?.document || '',
-      email: response.email || '',
-      name: response.name || '',
-      lastName: response.metadata?.lastName || '',
     }
   };
   
