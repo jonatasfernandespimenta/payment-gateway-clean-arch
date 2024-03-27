@@ -6,4 +6,7 @@ export interface CreateCardToken {
   expYear: string
   lastFour: string
   name: string
+  funding: 'credit' | 'debit' | 'prepaid' | 'unknown'
+  number: string
+  cvc: string
 }

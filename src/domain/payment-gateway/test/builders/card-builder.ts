@@ -12,7 +12,8 @@ export class CardBuilder {
       expMonth: faker.date.month(),
       expYear: '2028',
       lastFour: faker.finance.creditCardNumber().slice(-4),
-      customerId
+      customerId,
+      funding: 'credit',
     };
   };
 
@@ -24,7 +25,10 @@ export class CardBuilder {
       expMonth: faker.date.month(),
       expYear: '2028',
       lastFour: faker.finance.creditCardNumber().slice(-4),
-      customerId
+      customerId,
+      funding: 'credit',
+      number: faker.finance.creditCardNumber(),
+      cvc: faker.finance.creditCardCVV(),
     };
   };
 }

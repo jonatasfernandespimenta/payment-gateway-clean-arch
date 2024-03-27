@@ -7,4 +7,5 @@ export interface Card {
   expYear: string
   lastFour: string
   name: string
+  funding: 'credit' | 'debit' | 'prepaid' | 'unknown'
 }
