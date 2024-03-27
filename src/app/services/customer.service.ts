@@ -1,5 +1,6 @@
 import { CreateCustomerUseCase } from "../../domain/payment-gateway/application/use-cases/create-customer-use-case";
 import { DeleteCustomerUseCase } from "../../domain/payment-gateway/application/use-cases/delete-customer-use-case";
+import { ResourceNotFoundError } from "../../domain/payment-gateway/application/use-cases/errors/resource-not-found-error";
 import { GetCustomerUseCase } from "../../domain/payment-gateway/application/use-cases/get-customer-use-case";
 import { UpdateCustomerUseCase } from "../../domain/payment-gateway/application/use-cases/update-customer-use-case";
 import { CreateCustomer } from "../../domain/payment-gateway/enterprise/interfaces/create-customer";
@@ -11,7 +12,15 @@ export class CustomerService {
 
   async get(id: string) {
     const getCustomerUseCase = new GetCustomerUseCase(this.customerRepository);
-    return getCustomerUseCase.execute({ customerId: id });
+    const response = await getCustomerUseCase.execute({ customerId: id });
+
+    if(response.isRight()) {
+      return response.value;
+    }
+
+    if(response.value instanceof ResourceNotFoundError) {
+      console.log('Customer not found');
+    }
   }
 
   async save(customer: CreateCustomer) {

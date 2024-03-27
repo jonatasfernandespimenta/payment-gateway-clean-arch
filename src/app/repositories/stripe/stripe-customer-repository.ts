@@ -8,7 +8,11 @@ export class StripeCustomerRepository implements CustomerRepository {
   async get(id: string): Promise<Customer | null> {
     const response = await stripe.customers.retrieve(id);
 
-    if(!response.id || response.deleted) {
+    if(!response.id) {
+      return null
+    }
+
+    if(response.deleted) {
       return null;
     }
 
