@@ -7,22 +7,22 @@ import { stripe, stripeApi } from './stripe'
 
 export class StripeCardRepository implements CardRepository {
   async get(id: string, customerId: string): Promise<Card | null> {
-    const response = await stripeApi.get(`/customers/${customerId}/cards/${id}`);
+    try {
+      const response = await stripeApi.get(`/customers/${customerId}/cards/${id}`);
 
-    if(!response.data.id) {
+      return {
+        id: response.data.id,
+        brand: response.data.brand,
+        country: response.data.country,
+        customerId: response.data.customer,
+        expMonth: response.data.exp_month,
+        expYear: response.data.exp_year,
+        lastFour: response.data.last4,
+        name: response.data.name,
+        funding: response.data.funding,
+      }
+    } catch (error) {
       return null;
-    }
-
-    return {
-      id: response.data.id,
-      brand: response.data.brand,
-      country: response.data.country,
-      customerId: response.data.customer,
-      expMonth: response.data.exp_month,
-      expYear: response.data.exp_year,
-      lastFour: response.data.last4,
-      name: response.data.name,
-      funding: response.data.funding,
     }
   };
 
@@ -38,7 +38,7 @@ export class StripeCardRepository implements CardRepository {
     });
 
     if(!response.card) {
-      throw new Error('Card not created');
+      throw new Error('Card not found');
     }
 
     return {
