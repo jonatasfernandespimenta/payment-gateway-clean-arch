@@ -1,24 +1,31 @@
+import { CreateCustomerUseCase } from "../../domain/payment-gateway/application/use-cases/create-customer-use-case";
+import { DeleteCustomerUseCase } from "../../domain/payment-gateway/application/use-cases/delete-customer-use-case";
+import { GetCustomerUseCase } from "../../domain/payment-gateway/application/use-cases/get-customer-use-case";
+import { UpdateCustomerUseCase } from "../../domain/payment-gateway/application/use-cases/update-customer-use-case";
 import { CreateCustomer } from "../../domain/payment-gateway/enterprise/interfaces/create-customer";
-import { Customer } from "../../domain/payment-gateway/enterprise/interfaces/customer";
 import { UpdateCustomer } from "../../domain/payment-gateway/enterprise/interfaces/update-customer";
 import { StripeCustomerRepository } from "../repositories/stripe/stripe-customer-repository";
 
 export class CustomerService {
   constructor(private customerRepository: StripeCustomerRepository) {}
 
-  async get(id: string): Promise<Customer | null> {
-    return this.customerRepository.get(id);
+  async get(id: string) {
+    const getCustomerUseCase = new GetCustomerUseCase(this.customerRepository);
+    return getCustomerUseCase.execute({ customerId: id });
   }
 
-  async save(customer: CreateCustomer): Promise<Customer> {
-    return this.customerRepository.save(customer);
+  async save(customer: CreateCustomer) {
+    const createCustomerUseCase = new CreateCustomerUseCase(this.customerRepository);
+    return createCustomerUseCase.execute({ customer });
   }
 
   async update(id: string, customer: UpdateCustomer) {
-    await this.customerRepository.update(id, customer);
+    const updateCustomerUseCase = new UpdateCustomerUseCase(this.customerRepository);
+    return updateCustomerUseCase.execute({ customerId: id, customer });
   }
 
-  async delete(id: string): Promise<void> {
-    return await this.customerRepository.delete(id);
+  async delete(id: string) {
+    const deleteCustomerUseCase = new DeleteCustomerUseCase(this.customerRepository);
+    return deleteCustomerUseCase.execute({ customerId: id });
   }
 }

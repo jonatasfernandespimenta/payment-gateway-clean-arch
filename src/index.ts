@@ -1,3 +1,5 @@
+import { init } from "./app"
+
 require('dotenv').config()
 
-console.log(process.env.STRIPE_SECRET_KEY)
+init()

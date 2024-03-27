@@ -1,3 +1,4 @@
+require('dotenv').config()
 import Stripe from 'stripe';
 import axios from 'axios';
 
